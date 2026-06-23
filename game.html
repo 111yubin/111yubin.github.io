@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>接宝大师 - 赵玉彬的小游戏</title>
+    <style>
+        /* 继承主页的清爽风格 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', Roboto, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .game-wrapper {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 30px 35px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #0b1a2a;
+            margin-bottom: 4px;
+        }
+        h1 span {
+            color: #2a7de1;
+        }
+        .subtitle {
+            color: #5a6f82;
+            font-size: 14px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 15px;
+        }
+
+        /* 游戏画布 */
+        #gameCanvas {
+            display: block;
+            margin: 0 auto 20px;
+            background: #f8faff;
+            border-radius: 18px;
+            border: 2px solid #e2ebf9;
+            cursor: pointer;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 480 / 600; /* 保持比例 */
+            touch-action: none; /* 防止触屏滑动 */
+        }
+
+        /* 计分板和按钮 */
+        .info-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .score-box {
+            background: #eef5fe;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a4d7a;
+        }
+        .score-box span {
+            color: #2a7de1;
+            font-size: 28px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #eaf2fb;
+            color: #1a4d7a;
+            border: 1px solid transparent;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+        .btn-primary {
+            background: #2a7de1;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(42, 125, 225, 0.25);
+        }
+        .btn-primary:hover {
+            background: #1a5a9a;
+            box-shadow: 0 6px 20px rgba(42, 125, 225, 0.35);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2a7de1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #1a5a9a;
+            text-decoration: underline;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 480px) {
+            .game-wrapper {
+                padding: 20px 16px 30px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            .info-panel {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-group {
+                justify-content: center;
+            }
+            .btn {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-wrapper">
+    <h1>🎯 <span>接宝</span>大师</h1>
+    <div class="subtitle">移动鼠标 / 手指滑动，接住所有小球！</div>
+
+    <!-- 游戏画布 -->
+    <canvas id="gameCanvas" width="480" height="600"></canvas>
+
+    <!-- 控制面板 -->
+    <div class="info-panel">
+        <div class="score-box">🏆 得分 <span id="scoreDisplay">0</span></div>
+        <div class="btn-group">
+            <button class="btn btn-primary" id="restartBtn">🔄 重新开始</button>
+        </div>
+    </div>
+
+    <!-- 返回主页 -->
+    <a href="index.html" class="back-link">← 返回我的个人主页</a>
+</div>
+
+<script>
+    (function() {
+        // ---------- 获取元素 ----------
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreSpan = document.getElementById('scoreDisplay');
+
+        // ---------- 固定尺寸 (逻辑像素) ----------
+        const CW = 480;
+        const CH = 600;
+        canvas.width = CW;
+        canvas.height = CH;
+
+        // ---------- 游戏状态 ----------
+        let gameOver = false;
+        let score = 0;
+
+        // ---------- 玩家 (挡板) ----------
+        const player = {
+            width: 100,
+            height: 16,
+            x: 0,          // 左边缘坐标
+            y: CH - 40,    // 距离底部 40px
+        };
+        // 初始化 x 居中
+        player.x = (CW - player.width) / 2;
+
+        // ---------- 小球 ----------
+        let balls = [];
+        const BALL_RADIUS = 12;
+        const MAX_BALLS = 5;          // 同时存在最多5个球
+        const BASE_SPEED = 2.2;
+        const SPAWN_INTERVAL = 40;    // 帧数间隔
+
+        let frameCounter = 0;
+
+        // ---------- 鼠标 / 触屏 控制 ----------
+        function handleMove(clientX) {
+            if (gameOver) return;
+
+            const rect = canvas.getBoundingClientRect();
+            // 计算鼠标在 canvas 逻辑坐标中的位置 (考虑 CSS 缩放)
+            const scaleX = canvas.width / rect.width;
+            const canvasX = (clientX - rect.left) * scaleX;
+
+            // 限制挡板不能超出左右边界
+            let newX = canvasX - player.width / 2;
+            newX = Math.max(0, Math.min(newX, CW - player.width));
+            player.x = newX;
+        }
+
+        // 鼠标事件
+        canvas.addEventListener('mousemove', (e) => {
+            e.preventDefault();
+            handleMove(e.clientX);
+        });
+
+        // 触屏事件 (移动端)
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            if (touch) {
+                handleMove(touch.clientX);
+            }
+        }, { passive: false });
+
+        // 防止触屏时页面滚动
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+
+        // ---------- 生成新球 ----------
+        function spawnBall() {
+            if (gameOver) return;
+            if (balls.length >= MAX_BALLS) return;
+
+            const x = Math.random() * (CW - 2 * BALL_RADIUS) + BALL_RADIUS;
+            // 速度稍微随机，增加趣味
+            const speed = BASE_SPEED + Math.random() * 0.6;
+            balls.push({
+                x: x,
+                y: BALL_RADIUS + 5,
+                radius: BALL_RADIUS,
+                speed: speed,
+            });
+        }
+
+        // ---------- 重置游戏 ----------
+        function resetGame() {
+            gameOver = false;
+            score = 0;
+            balls = [];
+            frameCounter = 0;
+            player.x = (CW - player.width) / 2;
+            scoreSpan.textContent = '0';
+            // 开局直接给两个球，不空场
+            setTimeout(() => { spawnBall(); }, 100);
+            setTimeout(() => { spawnBall(); }, 300);
+        }
+
+        // ---------- 更新逻辑 ----------
+        function update() {
+            if (gameOver) return;
+
+            // 1. 生成新球 (按帧计数)
+            frameCounter++;
+            if (frameCounter % SPAWN_INTERVAL === 0) {
+                spawnBall();
+            }
+
+            // 2. 移动球 + 碰撞检测
+            for (let i = balls.length - 1; i >= 0; i--) {
+                const b = balls[i];
+                b.y += b.speed;
+
+                // 检测是否触底 (游戏结束)
+                if (b.y + b.radius > CH) {
+                    gameOver = true;
+                    return; // 立即停止更新
+                }
+
+                // 检测是否被接住 (挡板碰撞)
+                // 条件：球底部 >= 挡板顶部 && 球顶部 <= 挡板底部 && 水平方向重叠
+                const ballBottom = b.y + b.radius;
+                const ballTop = b.y - b.radius;
+                const paddleTop = player.y;
+                const paddleBottom = player.y + player.height;
+
+                if (ballBottom >= paddleTop && ballTop <= paddleBottom) {
+                    // 水平重叠检查
+                    if (b.x + b.radius > player.x && b.x - b.radius < player.x + player.width) {
+                        // 接住了！
+                        balls.splice(i, 1);
+                        score++;
+                        scoreSpan.textContent = score;
+                        continue;
+                    }
+                }
+            }
+        }
+
+        // ---------- 绘图 ----------
+        function draw() {
+            ctx.clearRect(0, 0, CW, CH);
+
+            // ---- 画网格装饰线 (轻量) ----
+            ctx.strokeStyle = 'rgba(42, 125, 225, 0.04)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < CH; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(CW, i);
+                ctx.stroke();
+            }
+
+            // ---- 画所有小球 (渐变) ----
+            for (const b of balls) {
+                const gradient = ctx.createRadialGradient(
+                    b.x - 4, b.y - 4, 2,
+                    b.x, b.y, b.radius
+                );
+                gradient.addColorStop(0, '#6ca6f0');
+                gradient.addColorStop(1, '#2a7de1');
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.shadowColor = 'rgba(42, 125, 225, 0.3)';
+                ctx.shadowBlur = 12;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                // 高光
+                ctx.beginPath();
+                ctx.arc(b.x - 3, b.y - 4, 4, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.fill();
+            }
+
+            // ---- 画挡板 (圆角矩形) ----
+            const pX = player.x;
+            const pY = player.y;
+            const pW = player.width;
+            const pH = player.height;
+            const radius = pH / 2; // 半圆头
+
+            ctx.shadowColor = 'rgba(42, 125, 225, 0.25)';
+            ctx.shadowBlur = 16;
+            ctx.beginPath();
+            ctx.moveTo(pX + radius, pY);
+            ctx.lineTo(pX + pW - radius, pY);
+            ctx.quadraticCurveTo(pX + pW, pY, pX + pW, pY + radius);
+            ctx.lineTo(pX + pW, pY + pH - radius);
+            ctx.quadraticCurveTo(pX + pW, pY + pH, pX + pW - radius, pY + pH);
+            ctx.lineTo(pX + radius, pY + pH);
+            ctx.quadraticCurveTo(pX, pY + pH, pX, pY + pH - radius);
+            ctx.lineTo(pX, pY + radius);
+            ctx.quadraticCurveTo(pX, pY, pX + radius, pY);
+            ctx.closePath();
+
+            const grad = ctx.createLinearGradient(pX, pY, pX, pY + pH);
+            grad.addColorStop(0, '#4a9af5');
+            grad.addColorStop(1, '#2a7de1');
+            ctx.fillStyle = grad;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            // 挡板高光条
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.fillRect(pX + 10, pY + 4, pW - 20, 4);
+            ctx.fillRect(pX + 10, pY + 8, pW - 20, 2);
+
+            // ---- 游戏结束遮罩 ----
+            if (gameOver) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                ctx.fillRect(0, 0, CW, CH);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 40px "Segoe UI", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 20;
+                ctx.fillText('💥 游戏结束', CW/2, CH/2 - 20);
+                ctx.font = '20px "Segoe UI", sans-serif';
+                ctx.fillText('点击 "重新开始" 再来一局', CW/2, CH/2 + 50);
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        // ---------- 游戏循环 (requestAnimationFrame) ----------
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // ---------- 绑定重启按钮 ----------
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            resetGame();
+        });
+
+        // ---------- 启动游戏 ----------
+        resetGame();
+        gameLoop();
+
+        // 窗口大小变化时，确保 canvas 显示比例正常 (无需额外操作，CSS aspect-ratio 已处理)
+        console.log('🎮 接宝大师已启动！');
+    })();
+</script>
+
+</body>
+</html>

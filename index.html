@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>赵玉彬 - 智能制造工程师</title>
+    <!-- 字体图标 (Font Awesome) 用于小图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ---------- 全局重置 ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f0f2f5;
+            color: #2c3e50;
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            padding: 40px 50px;
+        }
+
+        /* ---------- 顶部导航 ---------- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eef2f7;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a2a3a;
+        }
+        .logo span {
+            color: #2a7de1;
+        }
+
+        .nav-links a {
+            margin-left: 25px;
+            text-decoration: none;
+            color: #4a5a6a;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #2a7de1;
+        }
+        .nav-links a i {
+            margin-right: 6px;
+        }
+
+        /* ---------- 头部 (个人信息) ---------- */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            background: #f8faff;
+            padding: 30px 35px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 头部装饰光晕 */
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(42,125,225,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(42,125,225,0.04) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .avatar-placeholder {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #2a7de1, #6ca6f0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #fff;
+            font-weight: 600;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(42, 125, 225, 0.2);
+        }
+
+        .header-info {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .header-info h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #0b1a2a;
+        }
+        .header-info .title {
+            font-size: 18px;
+            color: #2a7de1;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .header-info .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 30px;
+            font-size: 15px;
+            color: #3d4f60;
+        }
+        .header-info .details i {
+            width: 20px;
+            color: #2a7de1;
+        }
+        .header-info .details a {
+            color: #3d4f60;
+            text-decoration: none;
+        }
+        .header-info .details a:hover {
+            color: #2a7de1;
+            text-decoration: underline;
+        }
+
+        /* ---------- 通用区块 ---------- */
+        section {
+            margin-bottom: 45px;
+        }
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0b1a2a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 12px;
+        }
+        .section-title i {
+            color: #2a7de1;
+            font-size: 22px;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 40px;
+        }
+
+        /* ---------- 技能标签（美化版） ---------- */
+        .skill-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #eef4fe, #e2ebf9);
+            color: #1a4d7a;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            margin: 4px 6px 4px 0;
+            border: 1px solid rgba(42, 125, 225, 0.08);
+            transition: all 0.25s ease;
+            cursor: default;
+        }
+        .skill-tag:hover {
+            background: linear-gradient(135deg, #2a7de1, #4a9af5);
+            color: #fff;
+            transform: scale(1.04);
+            border-color: #2a7de1;
+            box-shadow: 0 4px 14px rgba(42, 125, 225, 0.25);
+        }
+
+        /* ---------- 教育卡片（美化版） ---------- */
+        .edu-item {
+            background: #f8faff;
+            padding: 20px 24px;
+            border-radius: 16px;
+            border: 1px solid #eef2f7;
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+        .edu-item:hover {
+            box-shadow: 0 6px 24px rgba(42, 125, 225, 0.08);
+            transform: translateY(-2px);
+        }
+        .edu-item .school {
+            font-weight: 700;
+            font-size: 18px;
+        }
+        .edu-item .major {
+            font-weight: 600;
+            color: #1f3a57;
+        }
+        .edu-item .meta {
+            color: #5a6f82;
+            font-size: 14px;
+        }
+
+        /* ---------- 荣誉奖项（奖牌风格） ---------- */
+        .honor-item {
+            background: linear-gradient(135deg, #fef9e7, #fdf2d0);
+            border: 1px solid #f5d78e;
+            color: #7a5a0a;
+            padding: 6px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            margin: 4px 10px 4px 0;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            cursor: default;
+        }
+        .honor-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px rgba(245, 215, 142, 0.35);
+        }
+        .honor-item i {
+            margin-right: 6px;
+        }
+
+        /* ---------- 项目/经历卡片（美化版） ---------- */
+        .exp-item {
+            background: #fafcff;
+            padding: 18px 22px 18px 22px;
+            border-radius: 14px;
+            border-left: 4px solid #2a7de1;
+            transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+            margin-bottom: 20px;
+        }
+        .exp-item:hover {
+            background: #f4f9ff;
+            box-shadow: 0 4px 20px rgba(42, 125, 225, 0.07);
+            transform: translateX(3px);
+        }
+        .exp-item .exp-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+        .exp-item .exp-title {
+            font-weight: 700;
+            font-size: 18px;
+            color: #0b1a2a;
+        }
+        .exp-item .exp-sub {
+            font-weight: 600;
+            color: #1f4a7a;
+        }
+        .exp-item .exp-date {
+            color: #6a7f92;
+            font-size: 14px;
+        }
+        .exp-item .exp-desc {
+            margin-top: 6px;
+            color: #3d4f60;
+            font-size: 15px;
+        }
+        .exp-item ul {
+            margin: 6px 0 0 20px;
+            color: #3d4f60;
+            font-size: 15px;
+        }
+        .exp-item ul li {
+            margin-bottom: 3px;
+        }
+
+        /* 高亮数字/标签 */
+        .highlight-number {
+            display: inline-block;
+            background: #2a7de1;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 0 12px;
+            border-radius: 20px;
+            line-height: 26px;
+            margin: 0 2px;
+        }
+        .highlight-tag {
+            display: inline-block;
+            font-size: 12px;
+            padding: 0 14px;
+            border-radius: 20px;
+            line-height: 24px;
+            font-weight: 600;
+            margin-right: 6px;
+            color: #fff;
+        }
+        .highlight-tag.blue { background: #2a7de1; }
+        .highlight-tag.green { background: #27ae60; }
+        .highlight-tag.orange { background: #f39c12; }
+        .highlight-tag.purple { background: #8e44ad; }
+        .highlight-tag.red { background: #e74c3c; }
+
+        /* ---------- 作品集卡片（美化版） ---------- */
+        .grid .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 16px;
+            background: #ffffff;
+            border: 1px solid #f0f2f5;
+        }
+        .grid .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(42, 125, 225, 0.12);
+        }
+        .grid .card img {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        /* ---------- 数据统计横幅 ---------- */
+        .stats-banner {
+            background: linear-gradient(135deg, #1a3a6a, #2a7de1, #4a9af5);
+            border-radius: 20px;
+            padding: 32px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            color: #fff;
+            margin-bottom: 45px;
+            box-shadow: 0 8px 30px rgba(42, 125, 225, 0.25);
+        }
+        .stats-banner .stat-item {
+            text-align: center;
+            padding: 8px 20px;
+            flex: 1 1 auto;
+            min-width: 80px;
+        }
+        .stats-banner .stat-number {
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .stats-banner .stat-label {
+            font-size: 14px;
+            opacity: 0.85;
+            letter-spacing: 0.5px;
+        }
+        .stats-banner .stat-divider {
+            width: 1px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+        }
+        @media (max-width: 600px) {
+            .stats-banner .stat-divider {
+                display: none;
+            }
+        }
+
+        /* ---------- 社交链接按钮 ---------- */
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin: 20px 0 30px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+        }
+        .social-links a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+        }
+        .social-links .btn-linkedin { background: #0a66c2; }
+        .social-links .btn-linkedin:hover { background: #084a8a; }
+        .social-links .btn-github { background: #24292e; }
+        .social-links .btn-github:hover { background: #1a1d21; }
+        .social-links .btn-email { background: #e74c3c; }
+        .social-links .btn-email:hover { background: #c0392b; }
+        .social-links .btn-portfolio { background: #2a7de1; }
+        .social-links .btn-portfolio:hover { background: #1a5a9a; }
+        .social-links a i {
+            margin-right: 8px;
+        }
+
+        /* ---------- 响应式 ---------- */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 18px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 20px;
+            }
+            .header-info .details {
+                justify-content: center;
+            }
+            .grid-2col {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .nav-links a {
+                margin: 0 10px;
+            }
+            .section-title {
+                font-size: 22px;
+            }
+            .exp-item {
+                padding: 14px 16px;
+            }
+            .edu-item {
+                padding: 14px 16px;
+            }
+            .stats-banner {
+                padding: 20px 12px;
+            }
+            .stats-banner .stat-number {
+                font-size: 28px;
+            }
+            .social-links a {
+                padding: 10px 22px;
+                font-size: 14px;
+            }
+        }
+
+        /* ---------- 页脚 ---------- */
+        footer {
+            text-align: center;
+            border-top: 2px solid #eef2f7;
+            padding-top: 25px;
+            margin-top: 30px;
+            color: #7a8fa0;
+            font-size: 14px;
+        }
+        footer i {
+            color: #e74c6f;
+        }
+
+        /* 小工具 */
+        .mt-1 { margin-top: 12px; }
+        .inline-block { display: inline-block; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== 导航 ===== -->
+    <nav>
+        <div class="logo"><span>赵</span>玉彬</div>
+        <div class="nav-links">
+            <a href="#about"><i class="fas fa-user"></i>简介</a>
+            <a href="#education"><i class="fas fa-graduation-cap"></i>教育</a>
+            <a href="#projects"><i class="fas fa-code"></i>项目</a>
+            <a href="#portfolio"><i class="fas fa-images"></i>作品集</a>
+            <a href="#experience"><i class="fas fa-briefcase"></i>实习</a>
+            <a href="#honors"><i class="fas fa-trophy"></i>荣誉</a>
+        </div>
+    </nav>
+
+    <!-- ===== 头部个人信息 ===== -->
+    <header class="header" id="about">
+        <img src="zhengjianzhao.jpg" style="width:120px;height:120px;border-radius:50%;object-fit:cover;box-shadow:0 8px 20px rgba(42,125,225,0.2);">
+        <div class="header-info">
+            <h1>赵玉彬</h1>
+            <div class="title">智能制造工程师 · 机械结构工程师</div>
+            <div class="details">
+                <span><i class="fas fa-phone-alt"></i> (+86) 18713830071</span>
+                <span><i class="fas fa-envelope"></i> <a href="mailto:1156794036@qq.com">1156794036@qq.com</a></span>
+                <span><i class="fas fa-calendar-alt"></i> 23岁</span>
+                <span><i class="fas fa-map-marker-alt"></i> 新加坡 / 中国</span>
+            </div>
+            <div class="details mt-1">
+                <span><i class="fas fa-language"></i> 英语 (IELTS 6.5) · 普通话 (一级乙等)</span>
+                <span><i class="fas fa-certificate"></i> CAD · CREO · 计算机三级</span>
+            </div>
+            <p style="margin-top: 14px; color: #3d4f60; font-size: 15px; background: #eef5fe; padding: 10px 18px; border-radius: 12px; border-left: 3px solid #2a7de1;">
+                <i class="fas fa-quote-left" style="color:#2a7de1; margin-right:6px;"></i>
+                开朗 · 责任心强 · 善于独立思考与团队协作，快速适应新环境。
+            </p>
+        </div>
+    </header>
+
+    <!-- ===== 教育 ===== -->
+    <section id="education">
+        <div class="section-title"><i class="fas fa-university"></i>教育背景</div>
+        <div class="grid-2col">
+            <div class="edu-item">
+                <div class="school">南洋理工大学 (NTU) <span style="font-weight:400;font-size:14px;color:#5a6f82;">· QS #12</span></div>
+                <div class="major">智能制造 · 工学硕士</div>
+                <div class="meta">2025.8 – 2026.7 (预期) &nbsp;|&nbsp; <span class="highlight-number">前10%</span></div>
+                <div style="font-size:14px;color:#3d4f60;margin-top:4px;">
+                    <i class="fas fa-book-open" style="color:#2a7de1;width:18px;"></i> 全球制造控制自动化 · 智能工业激光与光学 · 精密工程基础 · 机器学习与数据科学
+                </div>
+            </div>
+            <div class="edu-item">
+                <div class="school">南京农业大学 <span style="font-weight:400;font-size:14px;color:#5a6f82;">· 211 &amp; 双一流</span></div>
+                <div class="major">机械设计制造及其自动化 · 工学学士</div>
+                <div class="meta">2021.9 – 2025.6 &nbsp;|&nbsp; 均分85 · 绩点3.3/4.5 · <span class="highlight-number">前20%</span></div>
+                <div style="font-size:14px;color:#3d4f60;margin-top:4px;">
+                    <i class="fas fa-book-open" style="color:#2a7de1;width:18px;"></i> C/Python · 工程制图 · 人工智能与智能制造 · 机械设计 · 有限元分析
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 数据统计横幅 ===== -->
+    <div class="stats-banner">
+        <div class="stat-item">
+            <div class="stat-number">6</div>
+            <div class="stat-label"><i class="fas fa-flask"></i> 项目经历</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-number">4</div>
+            <div class="stat-label"><i class="fas fa-building"></i> 实习经历</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-number">2</div>
+            <div class="stat-label"><i class="fas fa-file-patent"></i> 实用新型专利</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-number">14</div>
+            <div class="stat-label"><i class="fas fa-trophy"></i> 荣誉奖项</div>
+        </div>
+    </div>
+
+    <!-- ===== 专业技能 ===== -->
+    <section>
+        <div class="section-title"><i class="fas fa-tools"></i>专业技能</div>
+        <div>
+            <span class="skill-tag"><i class="fas fa-cube"></i> SolidWorks (精通)</span>
+            <span class="skill-tag"><i class="fas fa-code"></i> Python / C++</span>
+            <span class="skill-tag"><i class="fas fa-robot"></i> LLM (Llama3) 部署</span>
+            <span class="skill-tag"><i class="fas fa-chart-line"></i> MATLAB 仿真</span>
+            <span class="skill-tag"><i class="fas fa-cogs"></i> ANSYS / EDEM</span>
+            <span class="skill-tag"><i class="fas fa-drafting-compass"></i> AutoCAD / CREO</span>
+            <span class="skill-tag"><i class="fas fa-microchip"></i> 数控编程 (UG/CNC)</span>
+            <span class="skill-tag"><i class="fas fa-database"></i> Docker / 云平台</span>
+        </div>
+    </section>
+
+    <!-- ===== 项目研究经历 ===== -->
+    <section id="projects">
+        <div class="section-title"><i class="fas fa-flask"></i>项目研究</div>
+
+        <div class="exp-item">
+            <div class="exp-header">
+                <span class="exp-title">露天地被勒电动深开沟整机研制</span>
+                <span class="exp-date">2022.11 – 2024.06</span>
+            </div>
+            <div class="exp-sub">
+                国家级SRT项目 · 核心成员
+                <span class="highlight-tag blue">国家级</span>
+                <span class="highlight-tag green">前5%</span>
+            </div>
+            <div class="exp-desc">
+                主导机械仿真与建模，使用SolidWorks优化开沟深度 (150-200mm) 及土壤位移效率；通过有限元分析验证结构在最大载荷 (&gt;200kgf) 下的完整性；实施运动仿真，缩短原型开发时间 <span class="highlight-number">25%</span>。获国家级SRT荣誉 (前5%)。
+            </div>
+        </div>
+
+        <div class="exp-item">
+            <div class="exp-header">
+                <span class="exp-title">芦蒿移栽与播种机开发</span>
+                <span class="exp-date">2024.01 – 2025.04</span>
+            </div>
+            <div class="exp-sub">
+                组长 · 钱燕教授实验室
+                <span class="highlight-tag purple">2项专利</span>
+            </div>
+            <div class="exp-desc">
+                主导SolidWorks 3D建模、EDEM离散元仿真及MATLAB动态分析。设计分苗与供苗机构，通过土壤-工具交互仿真优化参数，降低幼苗损伤率约 <span class="highlight-number">20%</span>；开发基于振动的播种系统，播种效率达 <span class="highlight-number">92%</span>。协调5人团队，缩短开发周期 <span class="highlight-number">30%</span>。获2项实用新型专利。
+            </div>
+        </div>
+
+        <div class="exp-item">
+            <div class="exp-header">
+                <span class="exp-title">基于LLM的TRIZ工程矛盾智能分析与设计</span>
+                <span class="exp-date">2024.10 – 2025.06</span>
+            </div>
+            <div class="exp-sub">本科毕业论文 <span class="highlight-tag orange">首创</span></div>
+            <div class="exp-desc">
+                首创结合大语言模型 (Llama3) 与TRIZ方法的矛盾解决自动化流程。开发混合人机工作流，矛盾识别准确率 <span class="highlight-number">85%</span>；构建基于知识图谱的TRIZ原则推荐系统；Python原型实现，比传统方法快 <span class="highlight-number">40%</span> 生成解决方案。
+            </div>
+        </div>
+
+        <div class="exp-item">
+            <div class="exp-header">
+                <span class="exp-title">智能养殖场清粪机器人 (节能减排大赛)</span>
+                <span class="exp-date">2024.10 – 2025.06</span>
+            </div>
+            <div class="exp-sub">
+                组长
+                <span class="highlight-tag green">省级三等奖</span>
+            </div>
+            <div class="exp-desc">
+                协调5名跨学科同学，负责外部结构设计及自主导航系统 (Dijkstra算法路径规划)，实现自动驾驶功能。获江苏省三等奖。
+            </div>
+        </div>
+
+        <div class="exp-item">
+            <div class="exp-header">
+                <span class="exp-title">智能制造自动化调度与NGS融合 (硕士课题)</span>
+                <span class="exp-date">2025.09 – 2026.06</span>
+            </div>
+            <div class="exp-sub">南洋理工大学 <span class="highlight-tag blue">在研</span></div>
+            <div class="exp-desc">
+                设计并实现自动化调度系统，结合机器学习与优化算法提升资源利用率；应用高性能计算与云平台处理海量基因组及制造数据；集成NGS数据分析模块，支持全流程自动化。
+            </div>
+        </div>
+
+        <div class="exp-item">
+            <div class="exp-header">
+                <span class="exp-title">3D打印大赛 · 园艺机器人模型</span>
+                <span class="exp-date">2023.04 – 2023.10</span>
+            </div>
+            <div class="exp-sub">
+                机械设计组员
+                <span class="highlight-tag orange">省级三等奖</span>
+            </div>
+            <div class="exp-desc">
+                使用SolidWorks设计流线形外壳，ADAMS进行底盘悬架/动力/转向/制动系统布置，Keyshot制作爆炸图动画。获省级三等奖。
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 作品集图片墙 ===== -->
+    <section id="portfolio">
+        <div class="section-title"><i class="fas fa-images"></i>作品集</div>
+
+        <!-- ✅ 改动1：这里从弹窗改成了跳转到外部链接（你自己替换网址） -->
+        <div style="text-align: right; margin-bottom: 15px;">
+            <a href="https://你的作品集链接.com" target="_blank" 
+               style="color:#2a7de1; font-weight:600; text-decoration:none; transition:color 0.2s;"
+               onmouseover="this.style.color='#1a5a9a'" onmouseout="this.style.color='#2a7de1'">
+                <i class="fas fa-arrow-right"></i> 查看全部作品
+            </a>
+        </div>
+
+        <div class="grid">
+            <!-- 作品卡片 1 -->
+            <div class="card" style="padding:15px; display:flex; flex-direction:column; height:100%;">
+                <img src="images/project1.jpg" alt="园艺机器人" 
+                     style="width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:12px; margin-bottom:12px;">
+                <h3 style="color:#0b1a2a;">园艺机器人</h3>
+                <p style="color:#5a6f82; font-size:14px;">流线形外壳 · 3D打印大赛省级三等奖</p>
+                <a href="images/picture3.jpg" target="_blank" 
+                   style="display:inline-block; margin-top:auto; color:#2a7de1; font-size:14px; border:1px solid #2a7de1; padding:4px 16px; border-radius:20px; text-decoration:none; transition:all 0.2s;"
+                   onmouseover="this.style.background='#2a7de1';this.style.color='#fff';"
+                   onmouseout="this.style.background='transparent';this.style.color='#2a7de1';">
+                    <i class="fas fa-search-plus"></i> 查看大图
+                </a>
+            </div>
+
+            <!-- 作品卡片 2 -->
+            <div class="card" style="padding:15px; display:flex; flex-direction:column; height:100%;">
+                <img src="images/picture1.jpg" alt="芦蒿移栽机仿真" 
+                     style="width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:12px; margin-bottom:12px;">
+                <h3 style="color:#0b1a2a;">芦蒿移栽播种机</h3>
+                <p style="color:#5a6f82; font-size:14px;">EDEM离散元仿真 · 获2项专利</p>
+                <a href="images/project2.jpg" target="_blank" 
+                   style="display:inline-block; margin-top:auto; color:#2a7de1; font-size:14px; border:1px solid #2a7de1; padding:4px 16px; border-radius:20px; text-decoration:none; transition:all 0.2s;"
+                   onmouseover="this.style.background='#2a7de1';this.style.color='#fff';"
+                   onmouseout="this.style.background='transparent';this.style.color='#2a7de1';">
+                    <i class="fas fa-search-plus"></i> 查看大图
+                </a>
+            </div>
+
+            <!-- 作品卡片 3 -->
+            <div class="card" style="padding:15px; display:flex; flex-direction:column; height:100%;">
+                <img src="images/project3.jpg" alt="四足机器人" 
+                     style="width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:12px; margin-bottom:12px;">
+                <h3 style="color:#0b1a2a;">机器狗</h3>
+                <p style="color:#5a6f82; font-size:14px;">C端开发 · 创新型外壳设计</p>
+                <a href="images/picture2.jpg" target="_blank" 
+                   style="display:inline-block; margin-top:auto; color:#2a7de1; font-size:14px; border:1px solid #2a7de1; padding:4px 16px; border-radius:20px; text-decoration:none; transition:all 0.2s;"
+                   onmouseover="this.style.background='#2a7de1';this.style.color='#fff';"
+                   onmouseout="this.style.background='transparent';this.style.color='#2a7de1';">
+                    <i class="fas fa-search-plus"></i> 查看大图
+                </a>
+            </div>
+
+            <!-- 作品卡片 4 -->
+            <div class="card" style="padding:15px; display:flex; flex-direction:column; height:100%;">
+                <img src="images/picture5.jpg" alt="泳池机器人和基站" 
+                     style="width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:12px; margin-bottom:12px;">
+                <h3 style="color:#0b1a2a;">智能泳池机器人</h3>
+                <p style="color:#5a6f82; font-size:14px;">IP68防水 · SLAM导航 · 智能基站</p>
+                <a href="images/picture5.jpg" target="_blank" 
+                   style="display:inline-block; margin-top:auto; color:#2a7de1; font-size:14px; border:1px solid #2a7de1; padding:4px 16px; border-radius:20px; text-decoration:none; transition:all 0.2s;"
+                   onmouseover="this.style.background='#2a7de1';this.style.color='#fff';"
+                   onmouseout="this.style.background='transparent';this.style.color='#2a7de1';">
+                    <i class="fas fa-search-plus"></i> 查看大图
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 实习经历 ===== -->
+    <section id="experience">
+        <div class="section-title"><i class="fas fa-building"></i>实习经历</div>
+
+        <div class="exp-item">
+            <div class="exp-header">
+                <span class="exp-title">毕方智控科技有限公司</span>
+                <span class="exp-date">2025.12 – 2026.01 &amp; 2026.05 – 2026.06</span>
+            </div>
+            <div class="exp-sub">广东佛山 · 结构设计实习生 <span class="highlight-tag blue">2段</span></div>
+            <ul>
+                <li>使用SolidWorks完成3D建模及2D工程图输出，累计设计零件 <span class="highlight-number">30+</span> 项；配合电气/嵌入式工程师优化布局，降低整机高度 <span class="highlight-number">5%</span>。</li>
+                <li>负责样机装配、调试与结构验证，提出改进方案并形成测试报告 <span class="highlight-number">10+</span> 份。</li>
+                <li>参与供应商沟通与选型，整理BOM表及变更记录，推动文档规范管理。</li>
+            </ul>
+        </div>
+
+        <div class="exp-item">
+            <div class="exp-header">
+                <span class="exp-title">东方汽车有限公司</span>
+                <span class="exp-date">2024.07 – 2024.08</span>
+            </div>
+            <div class="exp-sub">襄阳 · 机械设计实习生</div>
+            <ul>
+                <li>学习生产加工流程，参与车身冲压件辅助设计与工艺优化。</li>
+                <li>拆装发动机和变速箱，熟悉内部结构，深化对精益生产的理解。</li>
+            </ul>
+        </div>
+
+        <div class="exp-item">
+            <div class="exp-header">
+                <span class="exp-title">中国二十二冶集团有限公司</span>
+                <span class="exp-date">2023.07 – 2023.08</span>
+            </div>
+            <div class="exp-sub">唐山 · 助理机械工程师实习生</div>
+            <ul>
+                <li>参与LNG配套输水项目结构设计，包括设备选型、方案制定及图纸绘制。</li>
+                <li>协助设备性能测试与问题排查，支持项目经理制定施工计划。</li>
+            </ul>
+        </div>
+
+        <div class="exp-item">
+            <div class="exp-header">
+                <span class="exp-title">保定天威集团特变电气有限公司</span>
+                <span class="exp-date">2022.07 – 2022.08</span>
+            </div>
+            <div class="exp-sub">保定 · 机械设计实习生</div>
+            <ul>
+                <li>学习设计部工作流程，使用AutoCAD与SolidWorks完成变压器部件图纸绘制。</li>
+                <li>参与生产现场技术支持，分析技术及质量问题。</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ===== 校园经历 ===== -->
+    <section>
+        <div class="section-title"><i class="fas fa-users"></i>校园与活动</div>
+        <div style="display:flex; flex-wrap:wrap; gap:16px 30px;">
+            <div style="background:#f8faff; padding:6px 18px; border-radius:30px; border:1px solid #eef2f7;">
+                <i class="fas fa-hand-holding-heart" style="color:#2a7de1;width:24px;"></i> 校青协红十字会 · 办公室部长
+            </div>
+            <div style="background:#f8faff; padding:6px 18px; border-radius:30px; border:1px solid #eef2f7;">
+                <i class="fas fa-user-graduate" style="color:#2a7de1;width:24px;"></i> 团支书 (机械216班)
+            </div>
+            <div style="background:#f8faff; padding:6px 18px; border-radius:30px; border:1px solid #eef2f7;">
+                <i class="fas fa-chalkboard-teacher" style="color:#2a7de1;width:24px;"></i> 新生学生助理 (农机231/232班)
+            </div>
+            <div style="background:#f8faff; padding:6px 18px; border-radius:30px; border:1px solid #eef2f7;">
+                <i class="fas fa-trophy" style="color:#f39c12;width:24px;"></i> 生涯规划大赛 · 校二等奖
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 荣誉与奖项 ===== -->
+    <section id="honors">
+        <div class="section-title"><i class="fas fa-trophy" style="color:#f39c12;"></i>荣誉与证书</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px 12px;">
+            <span class="honor-item"><i class="fas fa-award" style="color:#e67e22;"></i> 节能减排大赛 省级三等奖</span>
+            <span class="honor-item"><i class="fas fa-award" style="color:#e67e22;"></i> 3D打印大赛 省级三等奖</span>
+            <span class="honor-item"><i class="fas fa-medal" style="color:#bdc3c7;"></i> “挑战杯” 校级三等奖</span>
+            <span class="honor-item"><i class="fas fa-star" style="color:#f1c40f;"></i> 优秀毕业生</span>
+            <span class="honor-item"><i class="fas fa-gem" style="color:#3498db;"></i> 优秀学生二等奖学金 (2次)</span>
+            <span class="honor-item"><i class="fas fa-user-tie" style="color:#2c3e50;"></i> 优秀学生干部</span>
+            <span class="honor-item"><i class="fas fa-user-tie" style="color:#2c3e50;"></i> 优秀共青团员</span>
+            <span class="honor-item"><i class="fas fa-user-tie" style="color:#2c3e50;"></i> 优秀共青团干</span>
+            <span class="honor-item"><i class="fas fa-heart" style="color:#e74c6f;"></i> 优秀志愿者</span>
+            <span class="honor-item"><i class="fas fa-hand-holding-heart" style="color:#27ae60;"></i> 社会实践奖</span>
+            <span class="honor-item"><i class="fas fa-certificate" style="color:#2980b9;"></i> CAD / CREO 证书</span>
+            <span class="honor-item"><i class="fas fa-certificate" style="color:#8e44ad;"></i> 计算机三级证书</span>
+            <span class="honor-item"><i class="fas fa-microphone" style="color:#e67e22;"></i> 普通话一级乙等</span>
+            <span class="honor-item"><i class="fas fa-car" style="color:#2c3e50;"></i> 驾照</span>
+        </div>
+    </section>
+
+    <!-- ✅ 改动2：新增社交链接区（可跳转到其他网站） -->
+    <div class="social-links">
+        <a href="https://www.linkedin.com/in/你的账号" target="_blank" class="btn-linkedin">
+            <i class="fab fa-linkedin"></i> 领英
+        </a>
+        <a href="https://github.com/你的用户名" target="_blank" class="btn-github">
+            <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="mailto:1156794036@qq.com" class="btn-email">
+            <i class="fas fa-envelope"></i> 邮件联系
+        </a>
+        <a href="https://你的博客或作品集网站.com" target="_blank" class="btn-portfolio">
+            <i class="fas fa-globe"></i> 个人博客
+        </a>
+    </div>
+
+    <!-- ===== 页脚 ===== -->
+    <footer>
+        <p style="font-size:13px; margin-top:4px;">在线简历 · 赵玉彬 · 智能制造工程师</p>
+    </footer>
+
+</div>
+
+<!-- ===== 简单的 JavaScript 交互 ===== -->
+<script>
+    // 平滑滚动到各锚点
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    });
+
+    console.log('✅ 个人主页加载完成！欢迎访问赵玉彬的在线简历。');
+</script>
+
+</body>
+</html>
